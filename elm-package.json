@@ -1,0 +1,17 @@
+{
+    "version": "1.0.0",
+    "summary": "JSON viewer for elm apps",
+    "repository": "https://github.com/1602/json-viewer.git",
+    "license": "ISC",
+    "source-directories": [
+        "src"
+    ],
+    "exposed-modules": [ "JsonViewer" ],
+    "dependencies": {
+        "1602/elm-feather": "2.2.0 <= v < 3.0.0",
+        "1602/json-value": "1.1.0 <= v < 2.0.0",
+        "elm-lang/core": "5.0.0 <= v < 6.0.0",
+        "elm-lang/html": "2.0.0 <= v < 3.0.0"
+    },
+    "elm-version": "0.18.0 <= v < 0.19.0"
+}

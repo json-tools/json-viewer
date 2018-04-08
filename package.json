@@ -1,0 +1,17 @@
+{
+  "name": "json-viewer",
+  "version": "1.0.0",
+  "description": "JSON value viewer for elm apps.",
+  "main": "index.js",
+  "repository": "git@github.com:1602/json-viewer.git",
+  "author": "Anatoliy <mail@anatoliy.in>",
+  "license": "GNU GENERAL PUBLIC LICENSE v3",
+  "private": false,
+  "devDependencies": {
+    "@ubio/css": "^1.3.11",
+    "elm": "^0.18.0",
+    "postcss": "^6.0.21",
+    "postcss-cli": "^5.0.0",
+    "postcss-import": "^11.1.0"
+  }
+}
