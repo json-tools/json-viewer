@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Html
-import Demo exposing (init, update, view)
+import Demo exposing (init, update, view, subscriptions)
 
 
 main =
@@ -9,5 +9,5 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = subscriptions
         }

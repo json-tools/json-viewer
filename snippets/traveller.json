@@ -1,0 +1,11 @@
+{ "firstName": "John" 
+, "middleName": null
+, "lastName": "Doe"
+, "document":
+  { "type": "passport"
+  , "number": "123456789"
+  , "validUntil": "2020-08-23"
+  }
+, "hasLuggage": true
+, "ageAtTimeOfDeparture": 42
+}

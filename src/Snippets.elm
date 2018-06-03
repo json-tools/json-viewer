@@ -1,5 +1,6 @@
-module Snippets exposing (Snippet(..), getSnippet, getSnippetTitle)
+module Snippets exposing (Snippet(..), getSnippetTitle)
 
+import Json.Viewer
 import JsonValue exposing (JsonValue)
 import Json.Encode exposing (object, string, bool, int, null)
 import Json.Decode exposing (Value, decodeValue)
@@ -7,6 +8,7 @@ import Json.Decode exposing (Value, decodeValue)
 
 type Snippet
     = Traveller
+    | Countries
 
 
 getSnippetTitle : Snippet -> String
@@ -15,30 +17,14 @@ getSnippetTitle ds =
         Traveller ->
             "Traveller"
 
-
-getSnippet : Snippet -> JsonValue
-getSnippet ds =
-    makeJsonObject <|
-        case ds of
-            Traveller ->
-                [ ( "firstName", string "John" )
-                , ( "middleName", null )
-                , ( "lastName", string "Doe" )
-                , ( "document"
-                  , object
-                        [ ( "type", string "passport" )
-                        , ( "number", string "123456789" )
-                        , ( "validUntil", string "2020-08-23" )
-                        ]
-                  )
-                , ( "hasLuggage", bool True )
-                , ( "ageAtTimeOfDeparture", int 42 )
-                ]
+        Countries ->
+            "Countries"
 
 
-makeJsonObject : List ( String, Value ) -> JsonValue
-makeJsonObject v =
+makeJsonViewer : List ( String, Value ) -> Json.Viewer.Model
+makeJsonViewer v =
     v
         |> object
         |> decodeValue JsonValue.decoder
         |> Result.withDefault JsonValue.NullValue
+        |> Json.Viewer.init

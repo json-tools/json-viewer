@@ -1,42 +1,57 @@
-module Demo exposing (init, update, view)
+port module Demo exposing (init, update, view, subscriptions)
 
-import Html exposing (Html, div, text)
+import Html exposing (Html, div, text, h3)
 import Html.Attributes exposing (class, classList)
 import Html.Events exposing (onClick)
-import JsonViewer
-import Snippets exposing (Snippet(..), getSnippet, getSnippetTitle)
+import Json.Decode exposing (Value, decodeValue)
+import JsonValue exposing (decoder)
+import Json.Viewer
+import Snippets exposing (Snippet(..), getSnippetTitle)
 
 
 type alias Model =
-    { expandedNodes : JsonViewer.ExpandedNodes
+    { jsonViewer : Json.Viewer.Model
     , showcase : Snippet
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    { expandedNodes = [ [] ]
+    { jsonViewer = Json.Viewer.init JsonValue.NullValue
     , showcase = Traveller
     }
-        ! []
+        ! [ loadSnippet "traveller" ]
 
 
 type Msg
-    = ToggleNode JsonViewer.Path
+    = JsonViewerMsg Json.Viewer.Msg
     | SetShowcase Snippet
+    | LoadSnippet Value
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
-        ToggleNode path ->
+        JsonViewerMsg m ->
             { model
-                | expandedNodes = model.expandedNodes |> JsonViewer.toggle path
+                | jsonViewer = model.jsonViewer |> Json.Viewer.update m
             }
                 ! []
 
         SetShowcase s ->
-            { model | showcase = s } ! []
+            { model
+                | showcase = s
+            }
+                ! [ loadSnippet (toString s |> String.toLower) ]
+
+        LoadSnippet v ->
+            { model
+                | jsonViewer =
+                    decodeValue JsonValue.decoder v
+                        |> Result.withDefault JsonValue.NullValue
+                        |> Json.Viewer.init
+            }
+                ! []
 
 
 view : Model -> Html Msg
@@ -50,6 +65,7 @@ view model =
 topbar : Model -> Html Msg
 topbar model =
     [ Traveller
+    , Countries
     ]
         |> List.map (snippetTab model.showcase)
         |> div [ class "app-topbar" ]
@@ -73,7 +89,19 @@ snippetTab activeSnippet snippet =
 content : Model -> Html Msg
 content model =
     div [ class "app-content" ]
-        [ model.showcase
-            |> getSnippet
-            |> JsonViewer.view { expandedNodes = model.expandedNodes, onToggle = ToggleNode } []
+        [ h3 [] [ text <| "Showcase: " ++ (getSnippetTitle model.showcase) ]
+        , model.jsonViewer
+            |> Json.Viewer.view
+            |> Html.map JsonViewerMsg
         ]
+
+
+port loadSnippet : String -> Cmd msg
+
+
+port snippet : (Value -> msg) -> Sub msg
+
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    snippet LoadSnippet
