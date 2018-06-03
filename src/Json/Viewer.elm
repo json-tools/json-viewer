@@ -81,13 +81,13 @@ update msg (Model model) =
 
 
 {-|
-Render JsonViewer
+Render JsonViewer. Usage example:
 
-    jsonValue
-        |> view
-            { expandedNodes = expandedNodes
-            , onToggle = ToggleNode
-            } []
+    view: Model -> Html Msg
+    view model=
+        model.jsonViewer
+            |> Json.Viewer.view
+            |> Html.map JsonViewerMsg
 -}
 view : Model -> Html Msg
 view (Model model) =
