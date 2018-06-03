@@ -1,6 +1,6 @@
 # json-viewer
 
-JSON value viewer for elm apps.
+JSON value viewer for elm apps. [Demo](https://1602.github.io/json-viewer/).
 
 ## When to use this module
 
