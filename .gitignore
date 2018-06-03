@@ -5,3 +5,4 @@ repl-temp-*
 build
 node_modules/
 documentation.json
+dist/
