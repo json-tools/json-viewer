@@ -7,25 +7,31 @@ module Json.Viewer exposing (Model, Msg, init, update, view)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-import JsonValue exposing (JsonValue)
+import Json.Value as JsonValue exposing (JsonValue)
 
 
 {-|
-Local state of Json.Viewer component
+Local state of Json.Viewer component. Usage example:
 
     type alias Model =
         { jsonViewer : Json.Viewer.Model
-        , {- ... the rest of applications model -}
+        , {- ...the rest of your app model decraration -}
         }
 -}
-type alias Model =
-    { expandedNodes : List Path
-    , jsonValue : JsonValue
-    }
+type Model
+    = Model
+        { expandedNodes : List Path
+        , jsonValue : JsonValue
+        }
 
 
 {-|
-Local messages of Json.Viewer component
+Local messages of Json.Viewer component. Usage example:
+
+    type Msg
+        = JsonViewerMsg Json.Viewer.Msg
+        | {- ...the rest of your app messages -}
+
 -}
 type Msg
     = Toggle Path
@@ -36,39 +42,42 @@ type alias Path =
 
 
 {-|
-Configuration for Json.Viewer component
+Initialization of Json.Viewer component. Usage example:
+
+    init : ( Model, Cmd Msg)
+    init =
+        { jsonViewer: Json.Viewer.init Json.Value.NullValue
+        , {- ...the rest of your app state initialization -}
+        } ! []
+
 -}
 init : JsonValue -> Model
 init jsonValue =
-    { expandedNodes = [], jsonValue = jsonValue }
+    Model { expandedNodes = [], jsonValue = jsonValue }
 
 
 {-|
-Toggle expandable node. A helper to use in update function:
-
-    type Msg
-        = ToggleNode Path
-        | {- ...the rest of your application messages... -}
+Toggle expandable node. Usage example:
 
     update msg model =
         case msg of
-            JsonViewer m ->
+            JsonViewerMsg m ->
                 { model
-                    | jsonViewer = model.jsonViewer |> update m
-                }
-                    ! []
+                    | jsonViewer =
+                        model.jsonViewer |> update m
+                } ! []
 
-            {- ... -}
+            {- ...the rest of your app message handling -}
 
 -}
 update : Msg -> Model -> Model
-update msg model =
+update msg (Model model) =
     case msg of
         Toggle path ->
             if List.member path model.expandedNodes then
-                { model | expandedNodes = model.expandedNodes |> List.filter ((/=) path) }
+                Model { model | expandedNodes = model.expandedNodes |> List.filter ((/=) path) }
             else
-                { model | expandedNodes = path :: model.expandedNodes }
+                Model { model | expandedNodes = path :: model.expandedNodes }
 
 
 {-|
@@ -81,7 +90,7 @@ Render JsonViewer
             } []
 -}
 view : Model -> Html Msg
-view model =
+view (Model model) =
     case model.jsonValue of
         JsonValue.ObjectValue _ ->
             viewChildProp "" model.jsonValue [] model.expandedNodes

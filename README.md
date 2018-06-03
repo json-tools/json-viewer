@@ -17,7 +17,7 @@ In the times of continuous delivery we often encounter unknown data structures e
 - [x] standard init-update-view API
 - [x] expand/collapse of nested values (object, array)
 - [x] preview of expandable values
-- [x] visual highlight of JSON types
+- [x] visual highlight of some JSON values (number, string, null, boolean)
 
 ## Upcoming features
 

@@ -4,7 +4,7 @@ import Html exposing (Html, div, text, h3)
 import Html.Attributes exposing (class, classList)
 import Html.Events exposing (onClick)
 import Json.Decode exposing (Value, decodeValue)
-import JsonValue exposing (decoder)
+import Json.Value as JsonValue exposing (decoder)
 import Json.Viewer
 import Snippets exposing (Snippet(..), getSnippetTitle)
 
@@ -34,7 +34,9 @@ update message model =
     case message of
         JsonViewerMsg m ->
             { model
-                | jsonViewer = model.jsonViewer |> Json.Viewer.update m
+                | jsonViewer =
+                    model.jsonViewer
+                        |> Json.Viewer.update m
             }
                 ! []
 
@@ -47,8 +49,8 @@ update message model =
         LoadSnippet v ->
             { model
                 | jsonViewer =
-                    decodeValue JsonValue.decoder v
-                        |> Result.withDefault JsonValue.NullValue
+                    v
+                        |> JsonValue.decodeValue
                         |> Json.Viewer.init
             }
                 ! []
