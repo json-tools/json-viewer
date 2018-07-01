@@ -1,6 +1,6 @@
 {
   "name": "json-viewer-custom-element",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Custom HTML element: json-viewer",
   "main": "build/custom-element.js",
   "repository": "git@github.com:1602/json-viewer.git",
