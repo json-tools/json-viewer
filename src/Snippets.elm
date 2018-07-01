@@ -4,6 +4,7 @@ module Snippets exposing (Snippet(..), getSnippetTitle)
 type Snippet
     = Traveller
     | Countries
+    | Addresses
 
 
 getSnippetTitle : Snippet -> String
@@ -14,3 +15,6 @@ getSnippetTitle ds =
 
         Countries ->
             "Countries"
+
+        Addresses ->
+            "Addresses"

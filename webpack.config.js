@@ -4,17 +4,23 @@ var merge = require("webpack-merge");
 var CopyWebpackPlugin = require("copy-webpack-plugin");
 var HTMLWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
+
 
 var TARGET_ENV =
     process.env.npm_lifecycle_event === "prod" ? "production" : "development";
-var filename = TARGET_ENV == "production" ? "[name]-[hash].js" : "index.js";
+var filename = TARGET_ENV == "production" ? "[name]-[hash].js" : "[name].js";
 
 var common = {
-    entry: "./src/index.js",
+    entry: {
+        index: "./src/index.js",
+        'custom-element': "./src/custom-element.js"
+    },
     output: {
         path: path.join(__dirname, "dist"),
         // webpack -p automatically adds hash when building for production
-        filename: filename
+        filename: '[name].js' //filename
     },
     plugins: [
         new HTMLWebpackPlugin({
@@ -22,6 +28,19 @@ var common = {
             template: "src/index.ejs",
             // inject details of output file at end of body
             inject: "body"
+        }),
+        new UglifyJsPlugin({
+            uglifyOptions: {
+                ecma: 6,
+                compress: {
+                    pure_funcs: "F2,F3,F4,F5,F6,F7,F8,F9",
+                    pure_getters: true,
+                    keep_fargs: false,
+                    unsafe_comps: true,
+                    unsafe_methods: true,
+                    unsafe_arrows: true
+                }
+            }
         })
     ],
     resolve: {
@@ -42,14 +61,18 @@ var common = {
                     loader: "babel-loader",
                     options: {
                         // env: automatically determines the Babel plugins you need based on your supported environments
-                        presets: ["env"]
+                        // presets: ["env"]
+                        presets: [["env", {
+                          "targets": {
+                              "chrome": 52
+                          }}]]
                     }
                 }
             },
             {
                 test: /\.css$/,
                 exclude: [/elm-stuff/, /node_modules/],
-                loaders: ["style-loader", "css-loader"]
+                loaders: ["to-string-loader", "css-loader"]
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -128,8 +151,6 @@ if (TARGET_ENV === "production") {
                     from: "src/assets"
                 }
             ]),
-            // TODO update to version that handles =>
-            new webpack.optimize.UglifyJsPlugin()
         ],
         module: {
             rules: [

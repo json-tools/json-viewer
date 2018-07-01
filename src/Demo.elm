@@ -68,6 +68,7 @@ topbar : Model -> Html Msg
 topbar model =
     [ Traveller
     , Countries
+    , Addresses
     ]
         |> List.map (snippetTab model.showcase)
         |> div [ class "app-topbar" ]
