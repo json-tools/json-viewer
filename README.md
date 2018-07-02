@@ -18,6 +18,7 @@ In the times of continuous delivery we often encounter unknown data structures e
 - [x] expand/collapse of nested values (object, array)
 - [x] preview of expandable values
 - [x] visual highlight of some JSON values (number, string, null, boolean)
+- [x] custom element `<json-viewer value='{ "foo": "bar" }'></json-viewer>`
 
 ## Upcoming features
 
@@ -27,3 +28,35 @@ In the times of continuous delivery we often encounter unknown data structures e
 - [ ] node operation (copy to clipboard, save as file, etc..)
 - [ ] configurable expandable view of long strings
 - [ ] configurable preview of media data
+- [ ] configurable preview of object with values (by default only property names are shown, without values)
+
+## Usage
+
+There are two ways of using this component:
+
+- as custom element (using web-components API)
+- as elm library
+
+### Custom element
+
+1. Register custom element
+```
+<script src="//unpkg.com/json-viewer-custom-element"></script>
+```
+
+2. Use in your code, as html
+```
+<json-viewer value='{ "foo": "bar" }'></json-viewer>
+```
+
+Currently there's only one attribute supported: `value` which should be a valid JSON value, more attributes will be added in future releases in order to support additional feature, such as copying node to clipboard.
+
+### Elm library
+
+1. Install dependency
+
+```
+elm-package install 1602/json-viewer
+```
+
+2. Use in your code, as elm component. This component uses standard init-update-view cycle. Check [API documentation](http://package.elm-lang.org/packages/1602/json-viewer/latest) for examples of usage.
