@@ -237,9 +237,17 @@ previewValue : JsonValue -> Html msg
 previewValue v =
     case v of
         JsonValue.StringValue s ->
-            toString s
-                |> text
-                |> inline JsonString
+            let
+                strLen =
+                    String.length s
+            in
+                (if strLen > 100 then
+                    (String.left 50 s) ++ "…" ++ (String.right 49 s)
+                 else
+                    toString s
+                )
+                    |> text
+                    |> inline JsonString
 
         JsonValue.NullValue ->
             "null"
