@@ -148,12 +148,18 @@ viewComponent expandedNodes path jv =
                         )
                     |> div [ class "json-viewer json-viewer--expandable" ]
             else
-                span
-                    [ class "json-viewer json-viewer--collapsed"
-                    , onClick <| Toggle path
-                    ]
-                    [ "[ " ++ (List.length items |> toString) ++ " items... ]" |> text
-                    ]
+                text ""
+
+
+
+{-
+   span
+       [ class "json-viewer json-viewer--collapsed"
+       , onClick <| Toggle path
+       ]
+       [ "[ " ++ (List.length items |> toString) ++ " items... ]" |> text
+       ]
+-}
 
 
 viewChildProp : String -> JsonValue -> List String -> List Path -> Html Msg
@@ -208,26 +214,101 @@ viewChildProp k v path expandedNodes =
                 [ text k ]
             , case v of
                 JsonValue.ObjectValue props ->
-                    props
-                        |> List.take 5
-                        |> List.map (\( k, _ ) -> k)
-                        |> String.join ", "
-                        |> (\s ->
-                                span
-                                    [ class "json-viewer json-viewer--collapsed"
-                                    , onClick <| Toggle childPath
-                                    ]
-                                    [ if List.length props > 5 then
-                                        "{ " ++ s ++ ", ... }" |> text
-                                      else
-                                        "{ " ++ s ++ " }" |> text
-                                    ]
-                           )
+                    span
+                        [ class "json-viewer json-viewer--collapsed"
+                        , onClick <| Toggle childPath
+                        ]
+                        [ previewObject props ]
+
+                JsonValue.ArrayValue items ->
+                    span
+                        [ class "json-viewer json-viewer--collapsed"
+                        , onClick <| Toggle childPath
+                        ]
+                        [ previewArray items ]
 
                 _ ->
                     text ""
             , v |> viewComponent expandedNodes childPath
             ]
+
+
+previewValue : JsonValue -> Html msg
+previewValue v =
+    case v of
+        JsonValue.StringValue s ->
+            toString s
+                |> text
+                |> inline JsonString
+
+        JsonValue.NullValue ->
+            "null"
+                |> text
+                |> inline JsonNull
+
+        JsonValue.NumericValue n ->
+            toString n
+                |> text
+                |> inline JsonNumber
+
+        JsonValue.ObjectValue _ ->
+            "{…}"
+                |> text
+
+        JsonValue.ArrayValue _ ->
+            "[…]"
+                |> text
+
+        JsonValue.BoolValue b ->
+            inline JsonBoolean <|
+                text <|
+                    if b then
+                        "true"
+                    else
+                        "false"
+
+
+previewArray : List JsonValue -> Html msg
+previewArray items =
+    items
+        |> List.take 5
+        |> List.map
+            (\v ->
+                span []
+                    [ previewValue v
+                    ]
+            )
+        |> (\s ->
+                if List.length items > 5 then
+                    s ++ [ text "…" ]
+                else
+                    s
+           )
+        |> (\s ->
+                (text "[") :: (s |> List.intersperse (text ", ")) ++ [ text "]" ] |> span []
+           )
+
+
+previewObject : List ( String, JsonValue ) -> Html msg
+previewObject props =
+    props
+        |> List.take 5
+        |> List.map
+            (\( k, v ) ->
+                span []
+                    [ text <| k ++ ": "
+                    , previewValue v
+                    ]
+            )
+        |> (\s ->
+                if List.length props > 5 then
+                    s ++ [ text "…" ]
+                else
+                    s
+           )
+        |> (\s ->
+                (text "{") :: (s |> List.intersperse (text ", ")) ++ [ text "}" ] |> span []
+           )
 
 
 type JsonType

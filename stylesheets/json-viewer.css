@@ -7,6 +7,7 @@
     color: grey;
     cursor: pointer;
     background-color: var(--color-blue--100);
+    font-style: italic;
 }
 
 .json-viewer__child-value {
