@@ -19,6 +19,7 @@ In the times of continuous delivery we often encounter unknown data structures e
 - [x] preview of expandable values
 - [x] visual highlight of some JSON values (number, string, null, boolean)
 - [x] custom element `<json-viewer value='{ "foo": "bar" }'></json-viewer>`
+- [x] preview of object/array with values for collapsed nodes
 
 ## Upcoming features
 
@@ -28,7 +29,6 @@ In the times of continuous delivery we often encounter unknown data structures e
 - [ ] node operation (copy to clipboard, save as file, etc..)
 - [ ] configurable expandable view of long strings
 - [ ] configurable preview of media data
-- [ ] configurable preview of object with values (by default only property names are shown, without values)
 
 ## Usage
 
