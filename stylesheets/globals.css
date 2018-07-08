@@ -1,10 +1,10 @@
-
-.json-viewer {
-    --font-family--mono: menlo, monospace;
-    --color-blue--100: #EDF7FA;
-    --color-mono--700: #383838;
-    --color-yellow--700: #B36B00;
-    --color-blue--700: #1C6285;
-    --color-red--700: #802629;
-    --color-brand-blue--600: #0D626E;
+:host {
+    --font-family: menlo, monospace;
+    --preview-background: #EDF7FA;
+    --key-color: #383838;
+    --string-value-color: #B36B00;
+    --numeric-value-color: #1C6285;
+    --null-value-color: #802629;
+    --boolean-value-color: #0D626E;
+    --toggle-color: #555;
 }

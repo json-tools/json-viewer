@@ -4,6 +4,22 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Json.Viewer Demo</title>
+<style>
+
+json-viewer {
+    display: inline-block;
+    background: #222;
+    --font-family: menlo, monospace;
+    --preview-background: transparent;
+    --key-color: #e36eec;
+    --string-value-color: #e93f3b;
+    --numeric-value-color: #9980ff;
+    --null-value-color: #7f7f7f;
+    --boolean-value-color: #9980ff;
+    --toggle-color: #bbb;
+}
+
+</style>
   </head>
   <body>
       <json-viewer value='{"hello":"world","types": { "array": [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ], "number": 1602, "bool": true, "null": null, "object": {"foo": {"bar":"baz"}}}, "strings": {"newline":"foo\nbar\n", "longerThan100Characters": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."}}'></json-viewer>

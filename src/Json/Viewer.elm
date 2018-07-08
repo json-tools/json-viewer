@@ -272,8 +272,10 @@ previewValue v =
             "{…}"
                 |> text
 
-        JsonValue.ArrayValue _ ->
-            "[…]"
+        JsonValue.ArrayValue items ->
+            "Array("
+                ++ (List.length items |> toString)
+                ++ ")"
                 |> text
 
         JsonValue.BoolValue b ->
