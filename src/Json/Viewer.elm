@@ -120,6 +120,7 @@ viewComponent expandedNodes path jv =
 
         JsonValue.StringValue sv ->
             sv
+                |> Regex.replace All newline (\_ -> "↵")
                 |> toString
                 |> text
                 |> inline JsonString
