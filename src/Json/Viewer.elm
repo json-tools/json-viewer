@@ -8,6 +8,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Json.Value as JsonValue exposing (JsonValue)
+import Regex exposing (HowMany(All))
 
 
 {-|
@@ -233,6 +234,11 @@ viewChildProp k v path expandedNodes =
             ]
 
 
+newline : Regex.Regex
+newline =
+    Regex.regex "\\n"
+
+
 previewValue : JsonValue -> Html msg
 previewValue v =
     case v of
@@ -244,8 +250,10 @@ previewValue v =
                 (if strLen > 100 then
                     (String.left 50 s) ++ "…" ++ (String.right 49 s)
                  else
-                    toString s
+                    s
                 )
+                    |> Regex.replace All newline (\_ -> "↵")
+                    |> toString
                     |> text
                     |> inline JsonString
 
@@ -268,12 +276,10 @@ previewValue v =
                 |> text
 
         JsonValue.BoolValue b ->
-            inline JsonBoolean <|
-                text <|
-                    if b then
-                        "true"
-                    else
-                        "false"
+            b
+                |> boolToString
+                |> text
+                |> inline JsonBoolean
 
 
 previewArray : List JsonValue -> Html msg
