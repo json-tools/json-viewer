@@ -52,6 +52,21 @@ There are two ways of using this component:
 
 Currently there's only one attribute supported: `value` which should be a valid JSON value, more attributes will be added in future releases in order to support additional feature, such as copying node to clipboard. [See demo of web-component usage](http://jsfiddle.net/6w7jfrq5/6/).
 
+3. Customize web component
+
+Example styling using colors from dark theme of chrome devtools
+
+```
+--font-family: menlo, monospace;
+--preview-background: transparent;
+--key-color: #e36eec;
+--string-value-color: #e93f3b;
+--numeric-value-color: #9980ff;
+--null-value-color: #7f7f7f;
+--boolean-value-color: #9980ff;
+--toggle-color: #bbb;
+```
+
 ### Elm library
 
 1. Install dependency
