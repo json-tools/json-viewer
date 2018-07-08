@@ -20,10 +20,11 @@ In the times of continuous delivery we often encounter unknown data structures e
 - [x] visual highlight of some JSON values (number, string, null, boolean)
 - [x] custom element `<json-viewer value='{ "foo": "bar" }'></json-viewer>`
 - [x] preview of object/array with values for collapsed nodes
+- [x] display newlines characters as ↵
 
 ## Upcoming features
 
-- [ ] highlight space characters (tab, newline, etc..)
+- [ ] configurable appearance
 - [ ] display hidden unicode characters
 - [ ] configurable pagination for long arrays
 - [ ] node operation (copy to clipboard, save as file, etc..)
