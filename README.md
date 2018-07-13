@@ -50,7 +50,7 @@ There are two ways of using this component:
 <json-viewer value='{ "foo": "bar" }'></json-viewer>
 ```
 
-Currently there's only one attribute supported: `value` which should be a valid JSON value, more attributes will be added in future releases in order to support additional feature, such as copying node to clipboard. [See demo of web-component usage](http://jsfiddle.net/6w7jfrq5/10/).
+Currently there's only one attribute supported: `value` which should be a valid JSON value, more attributes will be added in future releases in order to support additional feature, such as copying node to clipboard. [See demo of web-component usage](http://jsfiddle.net/6w7jfrq5/26).
 
 3. Customize web component
 

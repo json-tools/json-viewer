@@ -205,15 +205,20 @@ viewChildProp k v path expandedNodes =
                 toggle
               else
                 text ""
-            , span
-                [ classList
-                    [ ( "json-viewer", True )
-                    , ( "json-viewer__key", True )
-                    , ( "json-viewer__key--expandable", isExpandable )
-                    ]
-                , onClick <| Toggle childPath
-                ]
-                [ text k ]
+            , case path of
+                [] ->
+                    text ""
+
+                _ ->
+                    span
+                        [ classList
+                            [ ( "json-viewer", True )
+                            , ( "json-viewer__key", True )
+                            , ( "json-viewer__key--expandable", isExpandable )
+                            ]
+                        , onClick <| Toggle childPath
+                        ]
+                        [ text k ]
             , case v of
                 JsonValue.ObjectValue props ->
                     span
