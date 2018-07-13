@@ -24,13 +24,14 @@ customElements.define('json-viewer',
             const value = JSON.parse(json);
             const app = Elm.Main.embed(appRoot, value);
             this.app = app;
-            // app.ports.loadSnippet.subscribe(x => app.ports.snippet.send(snippets[x]));
         }
 
         attributeChangedCallback(name, oldValue, newValue) {
             switch (name) {
                 case 'value':
-                    this.app.ports.valueChange.send(JSON.parse(newValue));
+                    if (oldValue !== newValue) {
+                        this.app.ports.valueChange.send(JSON.parse(newValue));
+                    }
                     break;
             }
         }

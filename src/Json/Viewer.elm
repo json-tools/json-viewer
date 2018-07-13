@@ -1,7 +1,7 @@
-module Json.Viewer exposing (Model, Msg, init, update, view)
+module Json.Viewer exposing (Model, Msg, init, update, view, updateValue)
 
 {-|
-@docs Model, Msg, init, update, view
+@docs Model, Msg, init, view, update, updateValue
 -}
 
 import Html exposing (..)
@@ -79,6 +79,13 @@ update msg (Model model) =
                 Model { model | expandedNodes = model.expandedNodes |> List.filter ((/=) path) }
             else
                 Model { model | expandedNodes = path :: model.expandedNodes }
+
+
+{-| Helper to update value without re-initializing the whole component
+-}
+updateValue : Model -> JsonValue -> Model
+updateValue (Model model) val =
+    Model { model | jsonValue = val }
 
 
 {-|

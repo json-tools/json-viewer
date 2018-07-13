@@ -32,7 +32,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
         ChangeValue v ->
-            { jsonViewer = v |> JsonValue.decodeValue |> Json.Viewer.init
+            { jsonViewer = v |> JsonValue.decodeValue |> Json.Viewer.updateValue model.jsonViewer
             }
                 ! []
 
