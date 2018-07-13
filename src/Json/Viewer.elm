@@ -171,6 +171,11 @@ viewComponent expandedNodes path jv =
 -}
 
 
+slot : String -> Html msg -> Html msg
+slot n childNode =
+    Html.node "slot" [ name n ] [ childNode ]
+
+
 viewChildProp : String -> JsonValue -> List String -> List Path -> Html Msg
 viewChildProp k v path expandedNodes =
     let
@@ -186,9 +191,9 @@ viewChildProp k v path expandedNodes =
                 , onClick <| Toggle childPath
                 ]
                 [ if childExpanded then
-                    text "-"
+                    text "-" |> slot "expanded"
                   else
-                    text "+"
+                    text "+" |> slot "collapsed"
                 ]
 
         isExpandable =
