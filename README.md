@@ -67,6 +67,11 @@ Example styling using colors from dark theme of chrome devtools
 --toggle-color: #bbb;
 ```
 
+Slots:
+
+- expanded: nested object toggle for expanded node (`-` by default)
+- collapsed: nested object toggle for collapsed node (`+` by default)
+
 ### Elm library
 
 1. Install dependency
