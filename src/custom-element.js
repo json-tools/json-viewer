@@ -6,7 +6,7 @@ customElements.define('json-viewer',
     class extends HTMLElement {
 
         static get observedAttributes() {
-            return ['value', 'enable-clipboard'];
+            return ['value', 'expanded-nodes', 'enable-clipboard'];
         }
 
         constructor() {
@@ -22,7 +22,8 @@ customElements.define('json-viewer',
 
             const json = this.getAttribute('value');
             const value = JSON.parse(json);
-            const app = Elm.Main.embed(appRoot, value);
+            const expandedNodes = this.hasAttribute('expanded-nodes') ? JSON.parse(this.getAttribute('expanded-nodes')) : [];
+            const app = Elm.Main.embed(appRoot, { value, expandedNodes });
             this.app = app;
         }
 
@@ -31,6 +32,13 @@ customElements.define('json-viewer',
                 case 'value':
                     if (oldValue !== newValue) {
                         this.app.ports.valueChange.send(JSON.parse(newValue));
+                    }
+                    break;
+
+                case 'expanded-nodes':
+                    if (oldValue !== newValue) {
+                        console.log('changed expanded-nodes');
+                        this.app.ports.expandedNodesChange.send(JSON.parse(newValue));
                     }
                     break;
             }

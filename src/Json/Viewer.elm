@@ -1,7 +1,7 @@
-module Json.Viewer exposing (Model, Msg, init, update, view, updateValue)
+module Json.Viewer exposing (Model, Msg, init, update, view, updateValue, updateExpandedNodes)
 
 {-|
-@docs Model, Msg, init, view, update, updateValue
+@docs Model, Msg, init, view, update, updateValue, updateExpandedNodes
 -}
 
 import Html exposing (..)
@@ -47,14 +47,17 @@ Initialization of Json.Viewer component. Usage example:
 
     init : ( Model, Cmd Msg)
     init =
-        { jsonViewer: Json.Viewer.init Json.Value.NullValue
+        { jsonViewer: Json.Viewer.init Nothing Json.Value.NullValue
         , {- ...the rest of your app state initialization -}
         } ! []
 
 -}
-init : JsonValue -> Model
-init jsonValue =
-    Model { expandedNodes = [], jsonValue = jsonValue }
+init : Maybe (List Path) -> JsonValue -> Model
+init expandedNodes jsonValue =
+    Model
+        { expandedNodes = expandedNodes |> Maybe.withDefault []
+        , jsonValue = jsonValue
+        }
 
 
 {-|
@@ -88,6 +91,14 @@ updateValue (Model model) val =
     Model { model | jsonValue = val }
 
 
+{-| Helper to update expanded nodes without re-initializing the whole component
+-}
+updateExpandedNodes : Model -> List Path -> Model
+updateExpandedNodes (Model model) val =
+    Model { model | expandedNodes = val }
+        |> Debug.log "updateExpandedNodes"
+
+
 {-|
 Render JsonViewer. Usage example:
 
@@ -101,10 +112,10 @@ view : Model -> Html Msg
 view (Model model) =
     case model.jsonValue of
         JsonValue.ObjectValue _ ->
-            viewChildProp "" model.jsonValue [] model.expandedNodes
+            viewChildProp Nothing model.jsonValue [] model.expandedNodes
 
         JsonValue.ArrayValue _ ->
-            viewChildProp "" model.jsonValue [] model.expandedNodes
+            viewChildProp Nothing model.jsonValue [] model.expandedNodes
 
         _ ->
             viewComponent model.expandedNodes [] model.jsonValue
@@ -142,7 +153,7 @@ viewComponent expandedNodes path jv =
                 props
                     |> List.map
                         (\( k, v ) ->
-                            viewChildProp k v path expandedNodes
+                            viewChildProp (Just k) v path expandedNodes
                         )
                     |> div [ class "json-viewer json-viewer--expandable" ]
             else
@@ -153,7 +164,7 @@ viewComponent expandedNodes path jv =
                 items
                     |> List.indexedMap
                         (\index v ->
-                            viewChildProp (toString index) v path expandedNodes
+                            viewChildProp (Just <| toString index) v path expandedNodes
                         )
                     |> div [ class "json-viewer json-viewer--expandable" ]
             else
@@ -176,11 +187,16 @@ slot n childNode =
     Html.node "slot" [ name n ] [ childNode ]
 
 
-viewChildProp : String -> JsonValue -> List String -> List Path -> Html Msg
+viewChildProp : Maybe String -> JsonValue -> List String -> List Path -> Html Msg
 viewChildProp k v path expandedNodes =
     let
         childPath =
-            path ++ [ k ]
+            case k of
+                Just key ->
+                    path ++ [ key ]
+
+                Nothing ->
+                    path
 
         childExpanded =
             List.member childPath expandedNodes
@@ -217,11 +233,11 @@ viewChildProp k v path expandedNodes =
                 toggle
               else
                 text ""
-            , case path of
-                [] ->
+            , case k of
+                Nothing ->
                     text ""
 
-                _ ->
+                Just key ->
                     span
                         [ classList
                             [ ( "json-viewer", True )
@@ -230,7 +246,7 @@ viewChildProp k v path expandedNodes =
                             ]
                         , onClick <| Toggle childPath
                         ]
-                        [ text k ]
+                        [ text key ]
             , case v of
                 JsonValue.ObjectValue props ->
                     span

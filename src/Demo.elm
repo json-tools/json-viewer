@@ -17,7 +17,7 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    { jsonViewer = Json.Viewer.init JsonValue.NullValue
+    { jsonViewer = Json.Viewer.init Nothing JsonValue.NullValue
     , showcase = Traveller
     }
         ! [ loadSnippet "traveller" ]
@@ -51,7 +51,7 @@ update message model =
                 | jsonViewer =
                     v
                         |> JsonValue.decodeValue
-                        |> Json.Viewer.init
+                        |> Json.Viewer.init Nothing
             }
                 ! []
 
