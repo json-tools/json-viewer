@@ -96,7 +96,6 @@ updateValue (Model model) val =
 updateExpandedNodes : Model -> List Path -> Model
 updateExpandedNodes (Model model) val =
     Model { model | expandedNodes = val }
-        |> Debug.log "updateExpandedNodes"
 
 
 {-|

@@ -62,7 +62,6 @@ update message model =
                 v
                     |> Json.Decode.decodeValue (list (list string))
                     |> Result.withDefault []
-                    |> Debug.log "expandedNodes update"
                     |> Json.Viewer.updateExpandedNodes model.jsonViewer
             }
                 ! []

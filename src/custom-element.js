@@ -37,7 +37,6 @@ customElements.define('json-viewer',
 
                 case 'expanded-nodes':
                     if (oldValue !== newValue) {
-                        console.log('changed expanded-nodes');
                         this.app.ports.expandedNodesChange.send(JSON.parse(newValue));
                     }
                     break;
