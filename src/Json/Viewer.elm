@@ -203,14 +203,10 @@ viewChildProp k v path expandedNodes =
 
         toggle =
             div
-                [ class "json-viewer__toggle"
+                [ classList [ ( "json-viewer__toggle", True ), ( "json-viewer__toggle--expanded", childExpanded ) ]
                 , onClick <| Toggle childPath
                 ]
-                [ if childExpanded then
-                    text "-" |> slot "expanded"
-                  else
-                    text "+" |> slot "collapsed"
-                ]
+                []
 
         isExpandable =
             case v of

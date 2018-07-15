@@ -1,5 +1,7 @@
 :host {
     display: inline-block;
+    --collapsed-node-bullet: "+";
+    --expanded-node-bullet: "-";
     --font-family: menlo, monospace;
     --preview-background: #EDF7FA;
     --key-color: #383838;
@@ -8,4 +10,5 @@
     --null-value-color: #802629;
     --boolean-value-color: #0D626E;
     --toggle-color: #555;
+    --adjust-bullet-top: 0;
 }

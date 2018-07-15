@@ -7,3 +7,17 @@
 .app-content {
   padding: 5px;
 }
+
+.json-viewer {
+    display: inline-block;
+    --collapsed-node-bullet: "+";
+    --expanded-node-bullet: "-";
+    --font-family: menlo, monospace;
+    --preview-background: #EDF7FA;
+    --key-color: #383838;
+    --string-value-color: #B36B00;
+    --numeric-value-color: #1C6285;
+    --null-value-color: #802629;
+    --boolean-value-color: #0D626E;
+    --toggle-color: #555;
+}

@@ -67,10 +67,12 @@ Example styling using colors from dark theme of chrome devtools
 --toggle-color: #bbb;
 ```
 
-Slots:
+To replace collapse/expand button content use
 
-- expanded: nested object toggle for expanded node (`-` by default)
-- collapsed: nested object toggle for collapsed node (`+` by default)
+```
+--collapsed-node-bullet: "▶"
+--expanded-node-bullet: "▼"
+```
 
 ### Elm library
 

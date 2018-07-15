@@ -56,6 +56,20 @@
     align-items: center;
 }
 
+.json-viewer__toggle:before {
+    content: var(--collapsed-node-bullet);
+    display: block;
+    position: relative;
+    top: var(--adjust-bullet-top);
+}
+
+.json-viewer__toggle--expanded:before {
+    content: var(--expanded-node-bullet);
+    display: block;
+    position: relative;
+    top: var(--adjust-bullet-top);
+}
+
 .json-viewer__key--expandable {
     cursor: pointer;
 }
