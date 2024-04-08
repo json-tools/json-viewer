@@ -1,6 +1,6 @@
 # json-viewer
 
-JSON value viewer. [Demo](https://1602.github.io/json-viewer/).
+JSON value viewer. [Demo](https://json-tools.github.io/json-viewer/).
 
 ## When to use this module
 
